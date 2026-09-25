@@ -1,1 +1,220 @@
-<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>AutoSense AI</title><style>body{font-family:Arial,sans-serif;background:#f3f4f6;margin:0;padding:40px} .card{max-width:800px;margin:auto;background:#fff;padding:24px;border-radius:16px;box-shadow:0 4px 12px rgba(0,0,0,.1)} input,select,button{width:100%;padding:12px;margin:8px 0;border-radius:8px;border:1px solid #ccc} button{background:#2563eb;color:#fff;border:none;font-weight:bold} .result{display:none;margin-top:20px;padding:15px;background:#f9fafb;border-radius:10px}</style></head><body><div class="card"><h1>🚗 AutoSense AI</h1><p>Der ehrliche digitale Mechaniker</p><input id="vehicle" value="Audi A8 4.0 TDI"><input id="code" placeholder="Fehlercode (z.B. P0087)"><select id="symptom"><option>Symptom auswählen</option><option>Motor geht aus</option><option>Startet nicht mehr</option><option>Leistungsverlust</option></select><button onclick="analyze()">Analyse starten</button><div id="result" class="result"></div></div><script>function analyze(){const code=document.getElementById('code').value.toUpperCase();const r=document.getElementById('result');if(code.includes('P0087')){r.innerHTML='<h3>Diagnose-Ergebnis</h3><p><b>Problem:</b> Kraftstoffversorgung gestört</p><p><b>Weiterfahren:</b> Nein</p><p><b>Wahrscheinlichste Ursache:</b> Vorförderpumpe (82%)</p><p><b>Typische Kosten:</b> 250-700 €</p>'; } else {r.innerHTML='<h3>Weitere Analyse erforderlich</h3><p>Fehlercode nicht in Datenbank.</p>';}r.style.display='block';}</script></body></html>
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AutoSense AI</title>
+ 
+<style>
+body{
+font-family:Arial,sans-serif;
+background:#f3f4f6;
+margin:0;
+padding:40px;
+}
+ 
+.card{
+max-width:800px;
+margin:auto;
+background:#fff;
+padding:24px;
+border-radius:16px;
+box-shadow:0 4px 12px rgba(0,0,0,.1);
+}
+ 
+input,select,button{
+width:100%;
+padding:12px;
+margin:8px 0;
+border-radius:8px;
+border:1px solid #ccc;
+box-sizing:border-box;
+}
+ 
+button{
+background:#2563eb;
+color:white;
+border:none;
+font-weight:bold;
+cursor:pointer;
+}
+ 
+button:hover{
+background:#1d4ed8;
+}
+ 
+.result{
+display:none;
+margin-top:20px;
+padding:20px;
+background:#f9fafb;
+border-radius:10px;
+}
+ 
+.success{
+border-left:5px solid #10b981;
+}
+ 
+.warning{
+border-left:5px solid #f59e0b;
+}
+ 
+h1{
+margin-top:0;
+}
+</style>
+ 
+</head>
+<body>
+ 
+<div class="card">
+ 
+<h1>🚗 AutoSense AI</h1>
+<p>Der ehrliche digitale Mechaniker</p>
+ 
+<input id="vehicle" placeholder="Fahrzeug" value="Audi A8 4.0 TDI">
+ 
+<input id="code" placeholder="Fehlercode (z.B. P0087)">
+ 
+<select id="symptom">
+<option>Symptom auswählen</option>
+<option>Motor geht aus</option>
+<option>Startet nicht mehr</option>
+<option>Leistungsverlust</option>
+<option>Hoher Verbrauch</option>
+<option>Unruhiger Motorlauf</option>
+</select>
+ 
+<button onclick="analyze()">
+Analyse starten
+</button>
+ 
+<div id="result" class="result"></div>
+ 
+</div>
+ 
+<script>
+ 
+function analyze(){
+ 
+const vehicle=document.getElementById('vehicle').value;
+const code=document.getElementById('code').value.toUpperCase();
+const symptom=document.getElementById('symptom').value;
+ 
+const r=document.getElementById('result');
+ 
+let output="";
+ 
+if(code.includes("P0087")){
+ 
+output=`
+<h2>✅ Diagnose-Ergebnis</h2>
+ 
+<p><strong>Fahrzeug:</strong> ${vehicle}</p>
+<p><strong>Fehlercode:</strong> P0087</p>
+ 
+<p><strong>Problem:</strong> Kraftstoffdruck zu niedrig</p>
+ 
+<p><strong>Wahrscheinlichste Ursache:</strong></p>
+ 
+<ul>
+<li>Vorförderpumpe: 82 %</li>
+<li>Kraftstofffilter: 10 %</li>
+<li>Raildrucksensor: 5 %</li>
+<li>Hochdruckpumpe: 3 %</li>
+</ul>
+ 
+<p><strong>Weiterfahren:</strong> Nicht empfohlen</p>
+ 
+<p><strong>Typische Reparaturkosten:</strong> 250 € bis 700 €</p>
+ 
+<p><strong>Empfohlene Prüfung:</strong><br>
+Fördermenge der Vorförderpumpe prüfen und Kraftstofffilter kontrollieren.</p>
+`;
+ 
+r.className="result success";
+}
+ 
+else if(code.includes("P0299")){
+ 
+output=`
+<h2>✅ Diagnose-Ergebnis</h2>
+ 
+<p><strong>Problem:</strong> Turbolader Unterdruck / Ladedruck zu gering</p>
+ 
+<ul>
+<li>Ladeluftleck: 50 %</li>
+<li>Unterdrucksystem: 25 %</li>
+<li>Turbolader: 20 %</li>
+<li>Sensorik: 5 %</li>
+</ul>
+ 
+<p><strong>Weiterfahren:</strong> Vorsichtig möglich</p>
+`;
+ 
+r.className="result success";
+}
+ 
+else if(code.includes("P0401")){
+ 
+output=`
+<h2>✅ Diagnose-Ergebnis</h2>
+ 
+<p><strong>Problem:</strong> AGR-Durchfluss zu gering</p>
+ 
+<ul>
+<li>AGR-Ventil verkokt: 75 %</li>
+<li>Unterdruckproblem: 15 %</li>
+<li>Sensorfehler: 10 %</li>
+</ul>
+ 
+<p><strong>Empfehlung:</strong> AGR-System prüfen und reinigen.</p>
+`;
+ 
+r.className="result success";
+}
+ 
+else if(code.includes("P0101")){
+ 
+output=`
+<h2>✅ Diagnose-Ergebnis</h2>
+ 
+<p><strong>Problem:</strong> Luftmassenmesser unplausibel</p>
+ 
+<ul>
+<li>Luftmassenmesser verschmutzt: 60 %</li>
+<li>Ansaugundichtigkeit: 25 %</li>
+<li>Verkabelung: 15 %</li>
+</ul>
+`;
+ 
+r.className="result success";
+}
+ 
+else{
+ 
+output=`
+<h2>⚠ Weitere Analyse erforderlich</h2>
+ 
+<p><strong>Fahrzeug:</strong> ${vehicle}</p>
+ 
+<p><strong>Fehlercode:</strong> ${code || "nicht angegeben"}</p>
+ 
+<p><strong>Symptom:</strong> ${symptom}</p>
+ 
+<p>Dieser Fehlercode befindet sich noch nicht in der AutoSenseAI-Datenbank.</p>
+ 
+<p>In einer späteren Version wird hier die KI-Analyse erscheinen.</p>
+`;
+ 
+r.className="result warning";
+}
+ 
+r.innerHTML=output;
+r.style.display="block";
+ 
+}
+</script>
+ 
+</body>
+</html>
